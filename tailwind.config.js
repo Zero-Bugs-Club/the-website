@@ -15,6 +15,15 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
+      keyframes: {
+        shine: {
+          '0%': { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
+      },
+      animation: {
+        shine: 'shine 4s linear infinite',
+      },
     },
   },
   plugins: [],
