@@ -55,7 +55,7 @@ export class HtmlRuntime {
 
   _checkScripts(code) {
     const warnings = [];
-    const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+    const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script(?:\s+[^>]*)?\s*>/gi;
     let match;
 
     while ((match = scriptRegex.exec(code)) !== null) {
