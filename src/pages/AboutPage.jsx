@@ -1,7 +1,8 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { Code2, Users, Rocket, Brain, Globe, Cpu, Linkedin, Github, Instagram, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Code2, Users, Rocket, Brain, Globe, Cpu, Linkedin, Instagram, Mail } from 'lucide-react';
 import LightRays from '../components/ui/LightRays';
+import { aboutDepartments } from '../config/about.config';
 
 const AboutPage = () => {
 
@@ -122,76 +123,118 @@ const AboutPage = () => {
     );
 };
 
-const TeamMemberCard = ({ name, role, color = "bg-white/5", socials }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className={`flex flex-col items-center p-6 rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-sm hover:border-white/30 transition-all group w-full max-w-sm mx-auto`}
-    >
-        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neutral-800 mb-4 border-2 border-white/10 group-hover:border-white/50 transition-colors overflow-hidden relative">
-            {/* Placeholder Image */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-gray-700 to-gray-600"></div>
-        </div>
-        <h3 className="text-xl font-bold text-white mb-1">{name}</h3>
-        <p className="text-sm text-blue-400 font-mono tracking-wide mb-4 uppercase">{role}</p>
+const TeamMemberCard = ({ name, role, socials, href, showViewText }) => {
+    const cardContent = (
+        <>
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-neutral-800 mb-4 border-2 border-white/10 group-hover:border-white/50 transition-colors overflow-hidden relative">
+                {/* Placeholder Image */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-gray-700 to-gray-600"></div>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1">{name}</h3>
+            <p className="text-sm text-blue-400 font-mono tracking-wide mb-4 uppercase">{role}</p>
 
-        <div className="flex gap-4">
-            {socials ? (
-                // Custom socials
-                socials.map((social, index) => (
-                    <a key={index} href={social.href || '#'} className="text-gray-400 hover:text-white transition-colors">
-                        {social.icon}
-                    </a>
-                ))
+            {href ? (
+                showViewText ? (
+                    <div className="flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
+                        View Members
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                ) : null
             ) : (
-                // Default socials
-                <>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors"><Linkedin size={18} /></a>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors"><Github size={18} /></a>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram size={18} /></a>
-                </>
+                <div className="flex gap-4">
+                    {socials ? (
+                        // Custom socials
+                        socials.map((social, index) => (
+                            <a key={index} href={social.href || '#'} className="text-gray-400 hover:text-white transition-colors">
+                                {social.icon}
+                            </a>
+                        ))
+                    ) : (
+                        // Default socials
+                        <>
+                            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Linkedin size={18} /></a>
+                            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram size={18} /></a>
+                        </>
+                    )}
+                </div>
             )}
-        </div>
-    </motion.div>
-);
+        </>
+    );
+
+    const cardClassName = "flex flex-col items-center p-6 rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-sm hover:border-white/30 transition-all group w-full max-w-sm mx-auto cursor-pointer";
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="w-full max-w-sm mx-auto"
+        >
+            {href ? (
+                <Link to={href} className={cardClassName}>
+                    {cardContent}
+                </Link>
+            ) : (
+                <div className={cardClassName}>
+                    {cardContent}
+                </div>
+            )}
+        </motion.div>
+    );
+};
 
 const TeamHierarchy = () => {
     return (
         <div className="flex flex-col gap-16 items-center">
             {/* Level 1: Chairperson */}
             <div className="w-full flex justify-center">
-                <TeamMemberCard name="Chairperson Name" role="Chairperson" />
+                <TeamMemberCard name="Chairperson Name" role="Chairperson" href="/board/president" />
             </div>
 
             {/* Level 2: Vice Chairperson */}
             <div className="w-full flex justify-center">
-                <TeamMemberCard name="Vice Chair Name" role="Vice Chairperson" />
+                <TeamMemberCard name="Kishal P" role="Vice Chairperson" href="/board/vice-president" />
             </div>
 
             {/* Level 3: General Secretary & Treasurer */}
             <div className="w-full flex justify-center gap-4 flex-wrap">
-                <TeamMemberCard name="Gen Sec Name" role="General Secretary" />
-                <TeamMemberCard name="Treasurer Name" role="Treasurer" />
+                <TeamMemberCard name="Mano Karthik" role="General Secretary" href="/board/general-secretary" />
+                <TeamMemberCard name="Divya R" role="Co-Secretary" href="/board/co-secretary" />
             </div>
 
-            {/* Level 4: Leads */}
-            <div className="w-full">
-                <h3 className="text-center text-gray-500 font-mono mb-8 uppercase tracking-widest text-sm">Cluster Leads</h3>
-                <div className="flex flex-wrap justify-center gap-6">
-                    <TeamMemberCard name="Lead Name" role="Development" />
-                    <TeamMemberCard name="Lead Name" role="UI/UX" />
-                    <TeamMemberCard name="Lead Name" role="Cybersec and Testing" />
-                    <TeamMemberCard name="Mano Kathik" role="Design and Content" />
-                    <TeamMemberCard name="Lead Name" role="Event Management" />
-                    <TeamMemberCard name="Lead Name" role="Social Media and Marketing" />
+            {/* Level 4: Departments */}
+            <div className="w-full flex justify-center pt-8">
+                <div className="text-center">
+                    <h3 className="text-gray-500 font-mono mb-8 uppercase tracking-widest text-xl">Department Leads</h3>
                 </div>
+            </div>
+            <div className="w-full flex justify-center gap-4 flex-wrap">
+                {aboutDepartments.slice(0, 3).map(department => (
+                    <TeamMemberCard 
+                        key={department.slug} 
+                        name={department.name} 
+                        role={department.lead}
+                        href={`/about/${department.slug}`}
+                        showViewText={true}
+                    />
+                ))}
+            </div>
+            <div className="w-full flex justify-center gap-4 flex-wrap">
+                {aboutDepartments.slice(3, 6).map(department => (
+                    <TeamMemberCard 
+                        key={department.slug} 
+                        name={department.name} 
+                        role={department.lead}
+                        href={`/about/${department.slug}`}
+                        showViewText={true}
+                    />
+                ))}
             </div>
 
             {/* Level 5: Faculty Coordinator */}
             <div className="w-full flex justify-center pt-8 border-t border-white/5">
                 <div className="text-center">
-                    <h3 className="text-gray-500 font-mono mb-8 uppercase tracking-widest text-sm">Faculty Coordinator</h3>
+                    <h3 className="text-gray-500 font-mono mb-8 uppercase tracking-widest text-xl">Faculty Coordinator</h3>
                     <TeamMemberCard
                         name="Dr.Punitha K"
                         role="Faculty Coordinator"
