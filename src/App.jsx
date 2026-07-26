@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
@@ -18,24 +18,37 @@ import CompilerPage from './pages/CompilerPage';
 import GalleryPage from './pages/GalleryPage';
 import RecruitmentPage from './pages/RecruitmentPage';
 
-// Scroll to top on route change
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  React.useEffect(() => {
+// Helper component to scroll to top and provide location for page transitions
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  useEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-}
+  }, [location.pathname]);
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/domains" element={<DomainsPage />} />
+        <Route path="/tools" element={<ToolsPage />} />
+        <Route path="/tools/compiler" element={<CompilerPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
+        <Route path="/recruitment" element={<RecruitmentPage />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 function App() {
-  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = React.useState(false);
 
   return (
     <Router>
-      <ScrollToTop />
       <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black font-sans antialiased overflow-x-hidden relative">
         <Grain />
-        
+
         {/* Side Margin Visuals */}
         <BinaryStream />
         <LiquidMetalScrollbar />
@@ -48,17 +61,7 @@ function App() {
         />
 
         <main>
-          <AnimatePresence mode='wait'>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/domains" element={<DomainsPage />} />
-              <Route path="/tools" element={<ToolsPage />} />
-              <Route path="/tools/compiler" element={<CompilerPage />} />
-              <Route path="/gallery" element={<GalleryPage />} />
-              <Route path="/recruitment" element={<RecruitmentPage />} />
-            </Routes>
-          </AnimatePresence>
+          <AnimatedRoutes />
         </main>
 
         <Footer />

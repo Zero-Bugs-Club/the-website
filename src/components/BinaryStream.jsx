@@ -90,7 +90,8 @@ const BinaryStream = () => {
   });
 
   return (
-    <div className="fixed left-3 md:left-6 top-20 md:top-24 z-20 h-[calc(100vh-96px)] w-8 pointer-events-none select-none overflow-hidden flex flex-col items-center opacity-45 hover:opacity-90 transition-opacity duration-300">
+    /* Changed 'flex' to 'hidden md:flex' so it remains completely hidden on mobile screens */
+    <div className="hidden md:flex fixed left-3 md:left-6 top-20 md:top-24 z-20 h-[calc(100vh-96px)] w-8 pointer-events-none select-none overflow-hidden flex-col items-center opacity-45 hover:opacity-90 transition-opacity duration-300">
       
       {/* Infinite Rolling Stream */}
       <motion.div

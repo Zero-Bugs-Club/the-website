@@ -13,16 +13,6 @@ export function InteractiveNebulaShader({
   const containerRef = useRef(null);
   const materialRef  = useRef(null);
 
-  // Sync props into uniforms
-  useEffect(() => {
-    const mat = materialRef.current;
-    if (mat) {
-      mat.uniforms.hasActiveReminders.value   = hasActiveReminders;
-      mat.uniforms.hasUpcomingReminders.value = hasUpcomingReminders;
-      mat.uniforms.disableCenterDimming.value = disableCenterDimming;
-    }
-  }, [hasActiveReminders, hasUpcomingReminders, disableCenterDimming]);
-
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -106,14 +96,14 @@ export function InteractiveNebulaShader({
       }
     `;
 
-    // Uniforms
+    // Uniforms initialized with default values
     const uniforms = {
       iTime:                { value: 0 },
       iResolution:          { value: new THREE.Vector2() },
       iMouse:               { value: new THREE.Vector2() },
-      hasActiveReminders:   { value: hasActiveReminders },
-      hasUpcomingReminders: { value: hasUpcomingReminders },
-      disableCenterDimming: { value: disableCenterDimming },
+      hasActiveReminders:   { value: false },
+      hasUpcomingReminders: { value: false },
+      disableCenterDimming: { value: false },
     };
 
     const material = new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms });
@@ -151,6 +141,16 @@ export function InteractiveNebulaShader({
       renderer.dispose();
     };
   }, []);
+
+  // Sync props into uniforms after the material is created
+  useEffect(() => {
+    const mat = materialRef.current;
+    if (mat) {
+      mat.uniforms.hasActiveReminders.value   = hasActiveReminders;
+      mat.uniforms.hasUpcomingReminders.value = hasUpcomingReminders;
+      mat.uniforms.disableCenterDimming.value = disableCenterDimming;
+    }
+  }, [hasActiveReminders, hasUpcomingReminders, disableCenterDimming]);
 
   return (
     <div

@@ -86,14 +86,20 @@ const ToolsPage = () => {
                             key={tool.id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: isTypingComplete ? 1 : 0, y: isTypingComplete ? 0 : 20 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+                            whileHover={{ y: -6, scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ duration: 0.3, ease: 'easeOut', delay: index * 0.1 }}
                         >
                             <Link
                                 to={tool.slug}
-                                className="group block h-full bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:from-white/15 hover:to-black/30 p-8 rounded-2xl transition-all"
+                                className="group relative block h-full bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-md border border-white/10 hover:border-white/30 hover:from-white/15 hover:to-white/5 p-8 rounded-2xl transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] overflow-hidden"
                             >
-                                <div className="flex flex-col h-full">
-                                    <div className="w-14 h-14 bg-white/5 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-white group-hover:text-black transition-all duration-300">
+                                {/* Top highlight subtle flare */}
+                                <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-32 h-32 bg-white/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                                <div className="flex flex-col h-full relative z-10">
+                                    {/* Icon Container */}
+                                    <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-2xl mb-6 text-white group-hover:bg-white group-hover:text-black group-hover:border-white group-hover:rotate-3 group-hover:scale-105 transition-all duration-300 shadow-sm group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]">
                                         {typeof tool.icon === 'string' ? (
                                             <span>{tool.icon}</span>
                                         ) : (
@@ -101,11 +107,13 @@ const ToolsPage = () => {
                                         )}
                                     </div>
 
-                                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:translate-x-1 transition-transform">
+                                    {/* Title */}
+                                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:translate-x-1 transition-transform duration-300">
                                         {tool.label}
                                     </h3>
 
-                                    <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-1">
+                                    {/* Description */}
+                                    <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-1 group-hover:text-gray-300 transition-colors duration-300">
                                         {tool.description}
                                     </p>
 
@@ -114,17 +122,17 @@ const ToolsPage = () => {
                                         {tool.tags.map(tag => (
                                             <span
                                                 key={tag}
-                                                className="px-3 py-1 bg-white/10 rounded-full text-xs font-mono text-gray-300"
+                                                className="px-3 py-1 bg-white/5 border border-white/5 rounded-full text-xs font-mono text-gray-300 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300"
                                             >
                                                 {tag}
                                             </span>
                                         ))}
                                     </div>
 
-                                    {/* CTA */}
-                                    <div className="flex items-center gap-2 text-sm font-medium text-white group-hover:gap-3 transition-all">
+                                    {/* CTA Link */}
+                                    <div className="flex items-center gap-2 text-sm font-medium text-white/80 group-hover:text-white transition-all duration-300">
                                         <span>Open Tool</span>
-                                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                                        <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1.5 text-emerald-400 group-hover:text-white" />
                                     </div>
                                 </div>
                             </Link>
