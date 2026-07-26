@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import LightRays from '../components/ui/LightRays';
+import VariableProximity from '../components/ui/VariableProximity';
 
 const DomainsPage = () => {
+    const containerRef = useRef(null);
+
     const activities = [
         {
             title: "Technical Workshops",
@@ -28,6 +31,7 @@ const DomainsPage = () => {
 
     return (
         <motion.div
+            ref={containerRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -47,8 +51,18 @@ const DomainsPage = () => {
                 />
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
+                
+                {/* Proximity Title Header */}
                 <h1 className="text-5xl md:text-7xl font-bold mb-16 text-white tracking-tighter">
-                    Our <span className="text-gray-500">Craft</span>
+                    <VariableProximity
+                        label="Our Craft"
+                        className="cursor-pointer"
+                        fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                        toFontVariationSettings="'wght' 900, 'opsz' 40"
+                        containerRef={containerRef}
+                        radius={150}
+                        falloff="exponential"
+                    />
                 </h1>
 
                 {/* Grid with 3D Perspective Container */}
@@ -69,8 +83,16 @@ const DomainsPage = () => {
                         >
                             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                                 <div className="md:w-1/3">
-                                    <h3 className="text-3xl font-bold text-white group-hover:pl-3 group-hover:text-white transition-all duration-300">
-                                        {item.title}
+                                    <h3 className="text-3xl font-bold text-white transition-all duration-300">
+                                        <VariableProximity
+                                            label={item.title}
+                                            className="cursor-pointer"
+                                            fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                                            toFontVariationSettings="'wght' 900, 'opsz' 30"
+                                            containerRef={containerRef}
+                                            radius={120}
+                                            falloff="linear"
+                                        />
                                     </h3>
                                 </div>
                                 <div className="md:w-2/3">

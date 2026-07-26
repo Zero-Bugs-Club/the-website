@@ -3,7 +3,9 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { recruitmentConfig } from '../config/recruitment.config';
-import Navbar from './Navbar'; // Ensure correct import path relative to your directory structure
+import Navbar from './Navbar';
+import LightRays from './ui/LightRays';
+import DamascusWaveBg from './ui/DamascusWaveBg';
 
 // Decipher / Scramble Effect Component with Continuous Shine
 const DecipherShineText = ({ text, className = "" }) => {
@@ -61,8 +63,29 @@ const Hero = ({ onContactClick }) => {
 
     return (
         <div className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black text-white selection:bg-white selection:text-black">
+            
+            {/* Top Spotlight / Light Rays Element (Matching other pages) */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <LightRays
+                    raysOrigin="top-center"
+                    raysColor="#cfcece"
+                    raysSpeed={1.5}
+                    lightSpread={0.8}
+                    rayLength={1.2}
+                    followMouse={true}
+                    mouseInfluence={0.1}
+                    noiseAmount={0.1}
+                    distortion={0.05}
+                />
+            </div>
+
+            {/* Damascus Wave Pattern Canvas Layer (Transparent so spotlight shines through) */}
+            <DamascusWaveBg />
+
             {/* 1. Navbar First */}
-            <Navbar onContactClick={onContactClick} />
+            <div className="relative z-50">
+                <Navbar onContactClick={onContactClick} />
+            </div>
 
             {/* Main Content Area: Centered Vertically */}
             <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex items-center justify-center py-20">
@@ -73,7 +96,7 @@ const Hero = ({ onContactClick }) => {
                     className="text-center"
                 >
                     {/* 2. Main Text */}
-                    <h1 className="text-6xl md:text-9xl font-bold tracking-tighter mb-8 text-white">
+                    <h1 className="text-6xl md:text-9xl font-bold tracking-tighter mb-8 text-white drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
                         <span className="inline-block">
                             ZERO
                         </span>
@@ -90,7 +113,7 @@ const Hero = ({ onContactClick }) => {
                         <DecipherShineText text="Explore. Engineer. Evolve." />
                     </div>
 
-                    {/* 4. Join Us Button with Subtle Corner Curvature */}
+                    {/* 4. Join Us Button */}
                     <div className="flex justify-center">
                         <motion.button
                             onClick={handleJoinClick}
@@ -112,7 +135,7 @@ const Hero = ({ onContactClick }) => {
                                 stiffness: 260, 
                                 damping: 22 
                             }}
-                            className="group relative px-10 py-4 font-bold uppercase tracking-widest outline-none border border-white/20"
+                            className="group relative px-10 py-4 font-bold uppercase tracking-widest outline-none border border-white/20 backdrop-blur-sm cursor-pointer"
                         >
                             <span className="relative z-10 flex items-center gap-2 group-hover:gap-4 transition-all duration-300">
                                 Join Us <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />

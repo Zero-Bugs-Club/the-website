@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ContactSidebar from './components/ContactSidebar';
 import Grain from './components/ui/Grain';
+import LiquidMetalScrollbar from './components/LiquidMetalScrollbar';
+import BinaryStream from './components/BinaryStream';
 
 // Pages
 import Home from './pages/Home';
@@ -31,8 +33,13 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black font-sans antialiased overflow-x-hidden">
+      <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black font-sans antialiased overflow-x-hidden relative">
         <Grain />
+        
+        {/* Side Margin Visuals */}
+        <BinaryStream />
+        <LiquidMetalScrollbar />
+
         <Navbar onContactClick={() => setIsContactOpen(true)} />
 
         <ContactSidebar

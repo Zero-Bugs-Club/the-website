@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal, Wrench, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -15,7 +15,27 @@ const tools = [
     }
 ];
 
+const FULL_TEXT = "Tools";
+
 const ToolsPage = () => {
+    const [displayedText, setDisplayedText] = useState("");
+    const [isTypingComplete, setIsTypingComplete] = useState(false);
+
+    useEffect(() => {
+        let index = 0;
+        const timer = setInterval(() => {
+            if (index < FULL_TEXT.length) {
+                setDisplayedText(FULL_TEXT.slice(0, index + 1));
+                index++;
+            } else {
+                setIsTypingComplete(true);
+                clearInterval(timer);
+            }
+        }, 150);
+
+        return () => clearInterval(timer);
+    }, []);
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -38,12 +58,25 @@ const ToolsPage = () => {
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
                 <div className="mb-16">
-                    <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tighter mb-4">
-                        Tools
+                    {/* Typewriter Title */}
+                    <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tighter mb-4 flex items-center min-h-[1.2em]">
+                        <span>{displayedText}</span>
+                        <motion.span
+                            animate={{ opacity: [0, 1, 0] }}
+                            transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                            className="inline-block w-[3px] md:w-[5px] h-[0.8em] bg-emerald-400 ml-2 rounded-sm"
+                        />
                     </h1>
-                    <p className="text-gray-400 text-lg max-w-2xl">
+
+                    {/* Fading Subtitle */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: isTypingComplete ? 1 : 0, y: isTypingComplete ? 0 : 10 }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="text-gray-400 text-lg max-w-2xl"
+                    >
                         Developer tools and utilities running directly in your browser.
-                    </p>
+                    </motion.p>
                 </div>
 
                 {/* Tools Grid */}
@@ -52,8 +85,8 @@ const ToolsPage = () => {
                         <motion.div
                             key={tool.id}
                             initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
+                            animate={{ opacity: isTypingComplete ? 1 : 0, y: isTypingComplete ? 0 : 20 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
                         >
                             <Link
                                 to={tool.slug}
