@@ -1,12 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Spotlight from '../components/ui/Spotlight';
-import ColorBends from '../components/ui/ColorBends';
 import { recruitmentConfig } from '../config/recruitment.config';
+import Navbar from './Navbar';
+import LightRays from './ui/LightRays';
+import DamascusWaveBg from './ui/DamascusWaveBg';
 
-const Hero = () => {
+// Decipher / Scramble Effect Component with Continuous Shine
+const DecipherShineText = ({ text, className = "" }) => {
+    const [displayText, setDisplayText] = useState('');
+    const chars = '!@#$%^&*()_+-=[]{}|;:,.<>?/0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    useEffect(() => {
+        let iteration = 0;
+        const totalDuration = 25;
+
+        const interval = setInterval(() => {
+            setDisplayText(
+                text
+                    .split('')
+                    .map((char, index) => {
+                        if (char === ' ') return ' ';
+                        if (index < iteration) {
+                            return text[index];
+                        }
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join('')
+            );
+
+            if (iteration >= text.length) {
+                clearInterval(interval);
+            }
+
+            iteration += 1 / 3;
+        }, totalDuration);
+
+        return () => clearInterval(interval);
+    }, [text]);
+
+    return (
+        <span
+            className={`inline-block text-transparent bg-clip-text bg-[length:200%_100%] bg-gradient-to-r from-gray-400 via-white to-gray-400 animate-shine ${className}`}
+        >
+            {displayText}
+        </span>
+    );
+};
+
+const Hero = ({ onContactClick }) => {
     const navigate = useNavigate();
 
     const handleJoinClick = () => {
@@ -19,89 +62,87 @@ const Hero = () => {
     };
 
     return (
-        <div className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black text-white selection:bg-white selection:text-black">
-            {/* Background with ColorBends */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-                <ColorBends
-                    colors={['#726e6e', '#111111', '#000000']}
-                    mouseInfluence={0.5}
-                    alpha={0.2}
+        <div className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-black text-white selection:bg-white selection:text-black">
+            
+            {/* Top Spotlight / Light Rays Element (Matching other pages) */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <LightRays
+                    raysOrigin="top-center"
+                    raysColor="#cfcece"
+                    raysSpeed={1.5}
+                    lightSpread={0.8}
+                    rayLength={1.2}
+                    followMouse={true}
+                    mouseInfluence={0.1}
+                    noiseAmount={0.1}
+                    distortion={0.05}
                 />
-                <div className="absolute inset-0 bg-black/60 pointer-events-none"></div> {/* Overlay to ensure text readability */}
             </div>
 
-            <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-none">
-                <Spotlight className="p-8 md:p-16 rounded-3xl border border-white/5 bg-black/40 backdrop-blur-sm pointer-events-auto">
-                    <div className="text-center">
+            {/* Damascus Wave Pattern Canvas Layer (Transparent so spotlight shines through) */}
+            <DamascusWaveBg />
 
+            {/* 1. Navbar First */}
+            <div className="relative z-50">
+                <Navbar onContactClick={onContactClick} />
+            </div>
 
-                        <h1 className="text-6xl md:text-9xl font-bold tracking-tighter mb-8 text-white">
-                            <span className="inline-block overflow-hidden">
-                                <motion.span
-                                    initial={{ y: "100%" }}
-                                    animate={{ y: 0 }}
-                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                    className="block"
-                                >
-                                    ZERO
-                                </motion.span>
-                            </span>
-                            <span className="inline-block overflow-hidden mx-4 text-white">
-                                <motion.span
-                                    initial={{ y: "100%" }}
-                                    animate={{ y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                                    className="block glitch-wrapper text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-400" data-text="BUGS"
-                                >
-                                    BUGS
-                                </motion.span>
-                            </span>
-                            <span className="inline-block overflow-hidden">
-                                <motion.span
-                                    initial={{ y: "100%" }}
-                                    animate={{ y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                                    className="block"
-                                >
-                                    CLUB
-                                </motion.span>
-                            </span>
-                        </h1>
+            {/* Main Content Area: Centered Vertically */}
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex items-center justify-center py-20">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="text-center"
+                >
+                    {/* 2. Main Text */}
+                    <h1 className="text-6xl md:text-9xl font-bold tracking-tighter mb-8 text-white drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
+                        <span className="inline-block">
+                            ZERO
+                        </span>
+                        <span className="inline-block mx-4 text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-400">
+                            BUGS
+                        </span>
+                        <span className="inline-block">
+                            CLUB
+                        </span>
+                    </h1>
 
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.4 }}
-                            className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-400 font-light leading-relaxed mb-12"
-                        >
-                            Real projects. Real impact. Zero bugs. We are a community turning ideas into fully deployable software, enforcing quality every step of the way.
-                        </motion.p>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.6 }}
-                            className="flex justify-center"
-                        >
-                            <button
-                                onClick={handleJoinClick}
-                                className="group relative px-8 py-4 bg-white text-black font-bold uppercase tracking-widest overflow-hidden"
-                            >
-                                <span className="relative z-10 flex items-center gap-2 group-hover:gap-4 transition-all duration-300">
-                                    Join Us <ArrowRight size={20} />
-                                </span>
-                                <div className="absolute inset-0 bg-gray-200 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
-                            </button>
-                        </motion.div>
+                    {/* 3. Secondary Text with Deciphering + Shining Animation */}
+                    <div className="mt-6 max-w-2xl mx-auto text-xl md:text-2xl font-mono tracking-widest leading-relaxed mb-12 min-h-[2rem]">
+                        <DecipherShineText text="Explore. Engineer. Evolve." />
                     </div>
-                </Spotlight>
-            </div>
 
-            {/* Decorative floating bits */}
-            <div className="absolute bottom-20 right-20 hidden md:block opacity-30 font-mono text-xs text-right">
-                <p>INITIALIZING_SYSTEM...</p>
-                <p>LOADING_ASSETS...</p>
-                <p className="text-green-500">READY.</p>
+                    {/* 4. Join Us Button */}
+                    <div className="flex justify-center">
+                        <motion.button
+                            onClick={handleJoinClick}
+                            initial={{ 
+                                borderRadius: "0px", 
+                                backgroundColor: "#9ca3af",
+                                color: "#111827" 
+                            }}
+                            whileHover={{ 
+                                borderRadius: "12px", 
+                                backgroundColor: "#ffffff",
+                                color: "#000000",
+                                scale: 1.03,
+                                boxShadow: "0px 0px 25px rgba(255, 255, 255, 0.6)"
+                            }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ 
+                                type: "spring", 
+                                stiffness: 260, 
+                                damping: 22 
+                            }}
+                            className="group relative px-10 py-4 font-bold uppercase tracking-widest outline-none border border-white/20 backdrop-blur-sm cursor-pointer"
+                        >
+                            <span className="relative z-10 flex items-center gap-2 group-hover:gap-4 transition-all duration-300">
+                                Join Us <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
+                            </span>
+                        </motion.button>
+                    </div>
+                </motion.div>
             </div>
         </div>
     );

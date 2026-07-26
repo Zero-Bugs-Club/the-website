@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100% !important;
   overflow: hidden;
   background: #000;
 }
@@ -170,41 +171,45 @@
   animation: compiler-spin 0.6s linear infinite;
 }
 
-/* ── Main Content ────────────────────────────────────────────────── */
+/* ── Main Workspace Area (3:1 Editor-to-Output Ratio) ───────────── */
 .compiler-main {
   position: relative;
   z-index: 1;
-  display: flex;
+  display: grid !important;
+  grid-template-columns: 3fr 1fr !important; /* Strict 3:1 ratio */
   flex: 1;
+  width: 100% !important;
   overflow: hidden;
   gap: 1px;
   background: rgba(255, 255, 255, 0.06);
+  height: 100%;
 }
 
 .compiler-editor-section {
-  flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   background: #000;
   min-width: 0;
+  height: 100%;
 }
 
 .compiler-output-section {
-  width: 400px;
-  min-width: 280px;
-  max-width: 50%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.95);
-  gap: 8px;
-  padding: 8px;
+  gap: 10px;
+  padding: 10px;
+  height: 100%;
+  width: 100% !important;
+  max-width: none !important;
 }
 
-/* ── Editor ──────────────────────────────────────────────────────── */
+/* ── Editor Container ────────────────────────────────────────────── */
 .compiler-editor {
   flex: 1;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -223,7 +228,7 @@
   border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
-/* ── Panel (shared by Output, Stdin, Stats, Preview) ────────────── */
+/* ── Panels (Output, Stdin, Stats, Preview) ─────────────────────── */
 .compiler-panel {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -231,6 +236,8 @@
   overflow: hidden;
   backdrop-filter: blur(8px);
   transition: border-color 200ms ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .compiler-panel:hover {
@@ -244,6 +251,7 @@
   padding: 8px 12px;
   background: rgba(255, 255, 255, 0.04);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
 }
 
 .compiler-panel-title {
@@ -290,6 +298,7 @@
   cursor: not-allowed;
 }
 
+/* Expanded Panel Content Dimensions */
 .compiler-panel-content {
   padding: 12px;
   margin: 0;
@@ -299,20 +308,21 @@
   white-space: pre-wrap;
   word-break: break-word;
   overflow-y: auto;
-  max-height: 250px;
-  min-height: 60px;
+  min-height: 180px;
+  max-height: 420px;
+  flex: 1;
   color: rgba(232, 232, 240, 1);
 }
 
 .compiler-panel-empty {
-  padding: 16px 12px;
+  padding: 24px 12px;
   text-align: center;
   color: rgba(107, 107, 138, 1);
   font-size: 0.82rem;
   font-style: italic;
 }
 
-/* ── Output text variants ────────────────────────────────────────── */
+/* ── Output Text Variants ────────────────────────────────────────── */
 .compiler-placeholder {
   color: rgba(107, 107, 138, 1);
   font-style: italic;
@@ -361,7 +371,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* ── Stdin textarea ──────────────────────────────────────────────── */
+/* ── Stdin Textarea ──────────────────────────────────────────────── */
 .compiler-stdin-textarea {
   width: 100%;
   padding: 10px 12px;
@@ -373,7 +383,7 @@
   font-size: 0.82rem;
   line-height: 1.5;
   resize: vertical;
-  min-height: 60px;
+  min-height: 110px;
 }
 
 .compiler-stdin-textarea::placeholder {
@@ -385,7 +395,7 @@
   box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.06);
 }
 
-/* ── Stats ───────────────────────────────────────────────────────── */
+/* ── Stats Panel ─────────────────────────────────────────────────── */
 .compiler-stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -397,7 +407,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   background: rgba(0, 0, 0, 0.6);
 }
 
@@ -440,7 +450,7 @@
 /* ── HTML Preview iframe ─────────────────────────────────────────── */
 .compiler-preview-iframe {
   width: 100%;
-  height: 250px;
+  height: 380px;
   border: none;
   background: #fff;
   display: block;
@@ -462,7 +472,6 @@
   flex: 1;
   height: 100% !important;
 }
-
 
 /* ── Status Bar ──────────────────────────────────────────────────── */
 .compiler-statusbar {
@@ -511,7 +520,7 @@
   font-size: 0.7rem;
 }
 
-/* ── Scrollbar ───────────────────────────────────────────────────── */
+/* ── Scrollbars ──────────────────────────────────────────────────── */
 .compiler-output-section::-webkit-scrollbar,
 .compiler-panel-content::-webkit-scrollbar {
   width: 6px;
@@ -537,13 +546,13 @@
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .compiler-main {
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   .compiler-output-section {
-    width: 100%;
-    max-width: 100%;
-    max-height: 45vh;
+    width: 100% !important;
+    max-height: 50vh;
   }
 
   .compiler-toolbar {
@@ -583,11 +592,12 @@
   }
 
   .compiler-output-section {
-    max-height: 40vh;
+    max-height: 45vh;
   }
 
   .compiler-panel-content {
-    max-height: 180px;
+    min-height: 120px;
+    max-height: 220px;
     font-size: 0.78rem;
   }
 }
@@ -598,7 +608,7 @@
   }
 
   .compiler-output-section {
-    max-height: 35vh;
+    max-height: 40vh;
   }
 }
 

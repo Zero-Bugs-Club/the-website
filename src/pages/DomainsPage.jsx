@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import LightRays from '../components/ui/LightRays';
+import VariableProximity from '../components/ui/VariableProximity';
 
 const DomainsPage = () => {
+    const containerRef = useRef(null);
+
     const activities = [
         {
             title: "Technical Workshops",
-            desc: "Expert-led sessions covering full-stack development, cloud computing, AI/ML, Cybersecurity, and DevOps. ",
+            desc: "Expert-led sessions covering full-stack development, cloud computing, AI/ML, Cybersecurity, and DevOps.",
             tags: ["React", "Python", "Node.js", "Docker"]
         },
         {
@@ -28,6 +31,7 @@ const DomainsPage = () => {
 
     return (
         <motion.div
+            ref={containerRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -47,28 +51,62 @@ const DomainsPage = () => {
                 />
             </div>
             <div className="max-w-6xl mx-auto relative z-10">
+                
+                {/* Proximity Title Header */}
                 <h1 className="text-5xl md:text-7xl font-bold mb-16 text-white tracking-tighter">
-                    Our <span className="text-gray-500">Craft</span>
+                    <VariableProximity
+                        label="Our Craft"
+                        className="cursor-pointer"
+                        fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                        toFontVariationSettings="'wght' 900, 'opsz' 40"
+                        containerRef={containerRef}
+                        radius={150}
+                        falloff="exponential"
+                    />
                 </h1>
 
-                <div className="grid gap-12">
+                {/* Grid with 3D Perspective Container */}
+                <div className="grid gap-12 [perspective:1200px]">
                     {activities.map((item, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="group border border-white/10 bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-sm hover:from-white/15 hover:to-black/30 hover:border-white/20 p-8 rounded-2xl transition-all"
+                            className="group border border-white/10 bg-gradient-to-b from-white/10 to-black/40 backdrop-blur-md 
+                                       p-8 rounded-2xl cursor-pointer
+                                       transition-all duration-300 ease-out transform-gpu z-10 hover:z-30
+                                       hover:-translate-y-4 hover:scale-105 
+                                       hover:[transform:rotateX(6deg)_rotateY(-2deg)]
+                                       hover:from-white/20 hover:to-black/60 hover:border-white/50
+                                       hover:shadow-[0_25px_50px_rgba(0,0,0,0.8),0_0_80px_20px_rgba(255,255,255,0.3)]"
                         >
                             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-                                <div className="md:w-1/4">
-                                    <h3 className="text-3xl font-bold text-white group-hover:pl-4 transition-all duration-300">{item.title}</h3>
+                                <div className="md:w-1/3">
+                                    <h3 className="text-3xl font-bold text-white transition-all duration-300">
+                                        <VariableProximity
+                                            label={item.title}
+                                            className="cursor-pointer"
+                                            fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                                            toFontVariationSettings="'wght' 900, 'opsz' 30"
+                                            containerRef={containerRef}
+                                            radius={120}
+                                            falloff="linear"
+                                        />
+                                    </h3>
                                 </div>
-                                <div className="md:w-1/2">
-                                    <p className="text-gray-400 text-lg leading-relaxed mb-6">{item.desc}</p>
+                                <div className="md:w-2/3">
+                                    <p className="text-gray-300 group-hover:text-white text-lg leading-relaxed mb-6 transition-colors duration-300">
+                                        {item.desc}
+                                    </p>
                                     <div className="flex flex-wrap gap-2">
                                         {item.tags.map(tag => (
-                                            <span key={tag} className="px-3 py-1 bg-white/10 rounded-full text-xs font-mono text-gray-300">{tag}</span>
+                                            <span 
+                                                key={tag} 
+                                                className="px-3 py-1 bg-white/10 group-hover:bg-white/20 border border-white/5 group-hover:border-white/20 rounded-full text-xs font-mono text-gray-300 group-hover:text-white transition-all duration-300"
+                                            >
+                                                {tag}
+                                            </span>
                                         ))}
                                     </div>
                                 </div>

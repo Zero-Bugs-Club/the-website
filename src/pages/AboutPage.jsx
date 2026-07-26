@@ -4,8 +4,6 @@ import { Code2, Users, Rocket, Brain, Globe, Cpu, Linkedin, Github, Instagram, M
 import LightRays from '../components/ui/LightRays';
 
 const AboutPage = () => {
-
-
     const values = [
         {
             icon: <Users className="w-6 h-6" />,
@@ -77,8 +75,6 @@ const AboutPage = () => {
                     >
                         ZBC is a student community dedicated to the practical application of software engineering.
                         We transform academic concepts into tangible reality by designing, building, and maintaining fully deployable projects.
-
-
                     </motion.p>
                 </div>
 
@@ -89,14 +85,24 @@ const AboutPage = () => {
                             key={index}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4 + (index * 0.1) }}
-                            className="bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:border-white/20 hover:from-white/15 hover:to-black/30 transition-all group"
+                            whileHover={{ y: -6, scale: 1.01 }}
+                            transition={{ delay: 0.4 + (index * 0.1), duration: 0.3, ease: "easeOut" }}
+                            className="group relative cursor-pointer select-none bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-sm p-8 rounded-xl border border-white/10 transition-all duration-300 ease-out hover:bg-white hover:border-white hover:shadow-[0_20px_40px_rgba(255,255,255,0.15)]"
                         >
-                            <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-white mb-6 group-hover:bg-white group-hover:text-black transition-colors">
-                                {item.icon}
+                            {/* Icon Box Container */}
+                            <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-white mb-6 border border-white/10 transition-all duration-300 ease-out group-hover:bg-white group-hover:border-black/10 group-hover:text-black group-hover:shadow-md">
+                                {React.cloneElement(item.icon, {
+                                    className: "w-6 h-6 transition-colors duration-300 group-hover:text-black"
+                                })}
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                            <p className="text-gray-400 leading-relaxed">
+
+                            {/* Title */}
+                            <h3 className="text-xl font-bold text-white mb-3 transition-colors duration-300 group-hover:text-black">
+                                {item.title}
+                            </h3>
+
+                            {/* Description */}
+                            <p className="text-gray-400 leading-relaxed transition-colors duration-300 group-hover:text-black/80 font-normal">
                                 {item.description}
                             </p>
                         </motion.div>
@@ -127,29 +133,48 @@ const TeamMemberCard = ({ name, role, _color = "bg-white/5", socials }) => (
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className={`flex flex-col items-center p-6 rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-sm hover:border-white/30 transition-all group w-full max-w-sm mx-auto`}
+        whileHover={{ y: -6, scale: 1.01 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="group relative cursor-pointer select-none flex flex-col items-center p-6 rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-black/20 backdrop-blur-sm transition-all duration-300 ease-out hover:bg-white hover:border-white hover:shadow-[0_20px_40px_rgba(255,255,255,0.15)] w-full max-w-sm mx-auto"
     >
-        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neutral-800 mb-4 border-2 border-white/10 group-hover:border-white/50 transition-colors overflow-hidden relative">
-            {/* Placeholder Image */}
+        {/* Avatar Ring */}
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neutral-800 mb-4 border-2 border-white/10 group-hover:border-black/20 transition-colors duration-300 overflow-hidden relative shadow-sm">
             <div className="absolute inset-0 bg-gradient-to-tr from-gray-700 to-gray-600"></div>
         </div>
-        <h3 className="text-xl font-bold text-white mb-1">{name}</h3>
-        <p className="text-sm text-blue-400 font-mono tracking-wide mb-4 uppercase">{role}</p>
 
+        {/* Member Name */}
+        <h3 className="text-xl font-bold text-white mb-1 transition-colors duration-300 group-hover:text-black">
+            {name}
+        </h3>
+
+        {/* Member Role */}
+        <p className="text-sm text-blue-400 font-mono tracking-wide mb-4 uppercase transition-colors duration-300 group-hover:text-blue-600 font-semibold">
+            {role}
+        </p>
+
+        {/* Social Icons Container */}
         <div className="flex gap-4">
             {socials ? (
-                // Custom socials
                 socials.map((social, index) => (
-                    <a key={index} href={social.href || '#'} className="text-gray-400 hover:text-white transition-colors">
+                    <a 
+                        key={index} 
+                        href={social.href || '#'} 
+                        className="text-gray-400 hover:text-black transition-colors duration-300 group-hover:text-black/70 group-hover:hover:text-black"
+                    >
                         {social.icon}
                     </a>
                 ))
             ) : (
-                // Default socials
                 <>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors"><Linkedin size={18} /></a>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors"><Github size={18} /></a>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram size={18} /></a>
+                    <a href="#" className="text-gray-400 group-hover:text-black/70 group-hover:hover:text-black transition-colors duration-300">
+                        <Linkedin size={18} />
+                    </a>
+                    <a href="#" className="text-gray-400 group-hover:text-black/70 group-hover:hover:text-black transition-colors duration-300">
+                        <Github size={18} />
+                    </a>
+                    <a href="#" className="text-gray-400 group-hover:text-black/70 group-hover:hover:text-black transition-colors duration-300">
+                        <Instagram size={18} />
+                    </a>
                 </>
             )}
         </div>
@@ -159,25 +184,37 @@ const TeamMemberCard = ({ name, role, _color = "bg-white/5", socials }) => (
 const TeamHierarchy = () => {
     return (
         <div className="flex flex-col gap-16 items-center">
-            {/* Level 1: Chairperson */}
-            <div className="w-full flex justify-center">
-                <TeamMemberCard name="Chairperson Name" role="Chairperson" />
-            </div>
-
-            {/* Level 2: Vice Chairperson */}
-            <div className="w-full flex justify-center">
-                <TeamMemberCard name="Vice Chair Name" role="Vice Chairperson" />
-            </div>
-
-            {/* Level 3: General Secretary & Treasurer */}
-            <div className="w-full flex justify-center gap-4 flex-wrap">
-                <TeamMemberCard name="Gen Sec Name" role="General Secretary" />
-                <TeamMemberCard name="Treasurer Name" role="Treasurer" />
-            </div>
-
-            {/* Level 4: Leads */}
+            
+            {/* Level 1 & 2: Board Section */}
             <div className="w-full">
-                <h3 className="text-center text-gray-500 font-mono mb-8 uppercase tracking-widest text-sm">Cluster Leads</h3>
+                <h3 className="text-center text-gray-300 font-mono mb-8 uppercase tracking-widest text-base md:text-lg font-semibold">
+                    Board
+                </h3>
+                
+                <div className="flex flex-col gap-12 items-center">
+                    {/* Chairperson */}
+                    <div className="w-full flex justify-center">
+                        <TeamMemberCard name="Chairperson Name" role="Chairperson" />
+                    </div>
+
+                    {/* Vice Chairperson */}
+                    <div className="w-full flex justify-center">
+                        <TeamMemberCard name="Vice Chair Name" role="Vice Chairperson" />
+                    </div>
+
+                    {/* General Secretary & Treasurer */}
+                    <div className="w-full flex justify-center gap-4 flex-wrap">
+                        <TeamMemberCard name="Gen Sec Name" role="General Secretary" />
+                        <TeamMemberCard name="Treasurer Name" role="Treasurer" />
+                    </div>
+                </div>
+            </div>
+
+            {/* Level 3: Cluster Leads */}
+            <div className="w-full">
+                <h3 className="text-center text-gray-300 font-mono mb-8 uppercase tracking-widest text-base md:text-lg font-semibold">
+                    Cluster Leads
+                </h3>
                 <div className="flex flex-wrap justify-center gap-6">
                     <TeamMemberCard name="Lead Name" role="Development" />
                     <TeamMemberCard name="Lead Name" role="UI/UX" />
@@ -188,10 +225,12 @@ const TeamHierarchy = () => {
                 </div>
             </div>
 
-            {/* Level 5: Faculty Coordinator */}
-            <div className="w-full flex justify-center pt-8 border-t border-white/5">
-                <div className="text-center">
-                    <h3 className="text-gray-500 font-mono mb-8 uppercase tracking-widest text-sm">Faculty Coordinator</h3>
+            {/* Level 4: Faculty Coordinator */}
+            <div className="w-full flex justify-center pt-8 border-t border-white/10">
+                <div className="text-center w-full">
+                    <h3 className="text-gray-300 font-mono mb-8 uppercase tracking-widest text-base md:text-lg font-semibold">
+                        Faculty Coordinator
+                    </h3>
                     <TeamMemberCard
                         name="Dr.Punitha K"
                         role="Faculty Coordinator"

@@ -48,9 +48,9 @@ const ContactSidebar = ({ isOpen, onClose }) => {
     };
 
     const socialLinks = [
-        { icon: <Github size={24} />, href: "#", bg: "hover:bg-[#333]" },
-        { icon: <Linkedin size={24} />, href: "#", bg: "hover:bg-[#0077b5]" },
-        { icon: <Instagram size={24} />, href: "#", bg: "hover:bg-[#E1306C]" },
+        { icon: <Github size={24} />, href: "https://github.com/Zero-Bugs-Club", bg: "hover:bg-[#333]" },
+        { icon: <Linkedin size={24} />, href: "https://www.linkedin.com/in/zbc-vitc-905075301?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", bg: "hover:bg-[#0077b5]" },
+        { icon: <Instagram size={24} />, href: "https://www.instagram.com/zbcvitc?igsh=MTlzam1jaDRxd3c1", bg: "hover:bg-[#E1306C]" },
         { icon: <Mail size={24} />, href: "mailto:zbcvitc@gmail.com", bg: "hover:bg-[#EA4335]" }
     ];
 
@@ -67,15 +67,16 @@ const ContactSidebar = ({ isOpen, onClose }) => {
                         className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
                     />
 
-                    {/* Sidebar */}
+                    {/* Sidebar Container */}
                     <motion.div
                         initial={{ x: '100%' }}
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed right-0 top-0 h-full w-full sm:w-[400px] bg-[#0a0a0a] border-l border-white/10 z-[70] p-8 shadow-2xl flex flex-col"
+                        className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-[#0a0a0a] border-l border-white/10 z-[70] py-8 pl-8 pr-3 shadow-2xl flex flex-col"
                     >
-                        <div className="flex justify-between items-center mb-10">
+                        {/* Header */}
+                        <div className="flex justify-between items-center mb-8 pr-5">
                             <h2 className="text-3xl font-bold tracking-tighter">Get in Touch</h2>
                             <button
                                 onClick={onClose}
@@ -85,8 +86,9 @@ const ContactSidebar = ({ isOpen, onClose }) => {
                             </button>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto">
-                            <p className="text-gray-400 mb-8">
+                        {/* Scrollable Content Container with spacing from scrollbar */}
+                        <div className="flex-1 overflow-y-auto pr-5 space-y-6">
+                            <p className="text-gray-400">
                                 Have a project in mind or want to join the club? Send us a message directly.
                             </p>
 
@@ -145,7 +147,7 @@ const ContactSidebar = ({ isOpen, onClose }) => {
                                 )}
                             </form>
 
-                            <div className="mt-12 text-center">
+                            <div className="pt-6 pb-2 text-center">
                                 <div className="relative mb-8">
                                     <div className="absolute inset-0 flex items-center">
                                         <div className="w-full border-t border-white/10"></div>
@@ -160,6 +162,8 @@ const ContactSidebar = ({ isOpen, onClose }) => {
                                         <a
                                             key={i}
                                             href={link.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className={`w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 ${link.bg}`}
                                         >
                                             {link.icon}
