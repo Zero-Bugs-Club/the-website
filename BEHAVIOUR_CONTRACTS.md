@@ -2677,6 +2677,23 @@ className="flex items-center gap-4 px-6 py-3 text-sm font-bold bg-white text-bla
 
 ---
 
+## 27. CONTINUOUS INTEGRATION WORKFLOW
+
+### File: `.github/workflows/ci.yml`
+
+**Contract:**
+- **Trigger**: Runs automatically on all `push` events across any branch and all `pull_request` events.
+- **Process**:
+  1. Checks out repository source code via `actions/checkout@v4`.
+  2. Sets up Node.js v20 with npm caching via `actions/setup-node@v4`.
+  3. Installs clean dependencies via `npm ci`.
+  4. Runs code linting via `npm run lint`.
+  5. Runs unit test suite via `npm run test`.
+  6. Builds production bundle via `npm run build`.
+- **Output**: CI job pass/fail status reported to GitHub commits and PR status checks.
+
+---
+
 ## DOCUMENT MAINTENANCE
 
 **Last Updated**: Initial comprehensive documentation
