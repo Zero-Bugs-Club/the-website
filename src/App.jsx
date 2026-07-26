@@ -12,7 +12,8 @@ import Home from './pages/Home';
 import AboutPage from './pages/AboutPage';
 import DepartmentPage from './pages/DepartmentPage';
 import DomainsPage from './pages/DomainsPage';
-import EventsPage from './pages/EventsPage';
+import ToolsPage from './pages/ToolsPage';
+import CompilerPage from './pages/CompilerPage';
 import GalleryPage from './pages/GalleryPage';
 import MemberProfilePage from './pages/MemberProfilePage';
 import RecruitmentPage from './pages/RecruitmentPage';
@@ -105,7 +106,8 @@ function App() {
               <Route path="/about/:deptName/:memberName" element={<MemberProfilePage />} />
               <Route path="/board/:memberName" element={<BoardProfilePage />} />
               <Route path="/domains" element={<DomainsPage />} />
-              <Route path="/events" element={<EventsPage />} />
+              <Route path="/tools" element={<ToolsPage />} />
+              <Route path="/tools/compiler" element={<CompilerPage />} />
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/recruitment" element={<RecruitmentPage />} />
             </Routes>
