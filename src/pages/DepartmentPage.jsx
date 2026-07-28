@@ -44,14 +44,14 @@ const DepartmentPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="min-h-screen bg-black pt-28 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-white"
+            className="min-h-screen bg-black pt-20 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-white"
         >
             {/* Background Layer - Sits strictly behind content */}
             <FogBackground />
 
             <div className="max-w-7xl mx-auto relative z-20">
                 {/* Back Button */}
-                <div className="mb-6 relative z-30">
+                <div className="mb-3 relative z-30">
                     <button
                         onClick={() => navigate('/about')}
                         className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-neutral-900 hover:bg-neutral-800 text-gray-300 hover:text-white transition-all cursor-pointer font-mono text-sm uppercase tracking-wider shadow-lg"
@@ -61,19 +61,17 @@ const DepartmentPage = () => {
                     </button>
                 </div>
 
-                {/* Department Header */}
-                <div className="text-center mb-10">
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-2 text-white">
+                {/* Department Header - Increased bottom margin to mb-8 md:mb-10 to push lead section down */}
+                <div className="text-center mb-8 md:mb-10">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-white">
                         {name} Department
                     </h1>
-                    <p className="text-gray-400 text-lg font-mono tracking-wide">
-                        ZERO BUGS CLUB
-                    </p>
                 </div>
 
-                {/* Clickable Lead Card Section with Spring Hover Animation */}
-                <div className="mb-12">
-                    <h2 className="text-center text-white font-bold mb-4 text-xl md:text-2xl tracking-wide">
+                {/* Lead Card Section */}
+                <div className="mb-6 md:mb-8">
+                    {/* Increased header margin to mb-4 to give the card a bit more breathing room */}
+                    <h2 className="text-center text-white font-bold mb-4 text-lg md:text-xl tracking-wide">
                         Department Lead
                     </h2>
                     <motion.div
@@ -89,20 +87,20 @@ const DepartmentPage = () => {
                             scale: { type: "spring", stiffness: 300, damping: 25 },
                             boxShadow: { duration: 0.25 }
                         }}
-                        className="flex flex-col items-center p-8 rounded-2xl border border-white/15 bg-gradient-to-b from-zinc-900 to-neutral-950 hover:border-white/40 transition-colors cursor-pointer group w-full max-w-md mx-auto shadow-2xl relative"
+                        className="flex flex-col items-center p-5 md:p-6 rounded-2xl border border-white/15 bg-gradient-to-b from-zinc-900 to-neutral-950 hover:border-white/40 transition-colors cursor-pointer group w-full max-w-md mx-auto shadow-2xl relative"
                     >
                         {/* Square Avatar */}
-                        <div className="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-neutral-800 mb-5 border-2 border-white/20 group-hover:border-white/60 transition-colors overflow-hidden relative shadow-lg">
+                        <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-neutral-800 mb-3 border-2 border-white/20 group-hover:border-white/60 transition-colors overflow-hidden relative shadow-lg">
                             {lead.image ? (
                                 <img src={lead.image} alt={lead.name} className="w-full h-full object-cover" />
                             ) : (
                                 <div className="absolute inset-0 bg-gradient-to-tr from-gray-700 to-gray-600"></div>
                             )}
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300">
+                        <h3 className="text-xl md:text-2xl font-bold text-white mb-1 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300">
                             {lead.name}
                         </h3>
-                        <p className="text-sm text-blue-400 font-mono tracking-wide mb-4 uppercase font-semibold">
+                        <p className="text-xs md:text-sm text-blue-400 font-mono tracking-wide mb-3 uppercase font-semibold">
                             {lead.role}
                         </p>
 
@@ -120,7 +118,7 @@ const DepartmentPage = () => {
                     </motion.div>
                 </div>
 
-                {/* Members Section with Spring Hover Animation */}
+                {/* Members Section */}
                 <div>
                     <h2 className="text-center text-white font-bold mb-6 text-xl md:text-2xl tracking-wide">
                         Members

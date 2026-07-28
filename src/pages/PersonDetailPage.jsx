@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Linkedin, Github, Instagram, Mail, CheckCircle2, Quote } from 'lucide-react';
-import LightRays from '../components/ui/LightRays';
+import FogBackground from '../components/ui/FogBackground';
 import { getBoardMemberBySlug, getPersonByDeptAndSlug, getDepartmentBySlug } from '../data/teamData';
 
 const SocialIcon = ({ platform }) => {
@@ -17,6 +17,20 @@ const SocialIcon = ({ platform }) => {
             return <Mail size={20} />;
         default:
             return null;
+    }
+};
+
+// Reusable spring hover settings to keep animations consistent
+const cardHover = {
+    y: -6,
+    scale: 1.01,
+    boxShadow: "0px 12px 35px 2px rgba(255, 255, 255, 0.15)",
+    borderColor: "rgba(255, 255, 255, 0.35)",
+    transition: {
+        y: { type: "spring", stiffness: 300, damping: 25 },
+        scale: { type: "spring", stiffness: 300, damping: 25 },
+        boxShadow: { duration: 0.25 },
+        borderColor: { duration: 0.25 }
     }
 };
 
@@ -58,29 +72,19 @@ const PersonDetailPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="min-h-screen bg-black pt-28 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-white"
+            className="min-h-screen bg-black pt-20 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-white"
         >
-            <div className="absolute inset-0 z-0">
-                <LightRays
-                    raysOrigin="top-center"
-                    raysColor="#cfcece"
-                    raysSpeed={1.5}
-                    lightSpread={0.8}
-                    rayLength={1.2}
-                    followMouse={true}
-                    mouseInfluence={0.1}
-                    noiseAmount={0.1}
-                    distortion={0.05}
-                />
+            {/* 1. Isolated Background Layer */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <FogBackground />
             </div>
 
-            {/* Identical max-w-7xl outer container to align Back button perfectly with DepartmentPage */}
             <div className="max-w-7xl mx-auto relative z-20">
                 {/* Clickable Back Navigation Button */}
-                <div className="mb-6 relative z-30">
+                <div className="mb-3 relative z-30">
                     <button
                         onClick={() => navigate(backPath)}
-                        className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 hover:bg-white/15 text-gray-300 hover:text-white transition-all cursor-pointer font-mono text-sm uppercase tracking-wider shadow-lg"
+                        className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-neutral-900 hover:bg-neutral-800 text-gray-300 hover:text-white transition-all cursor-pointer font-mono text-sm uppercase tracking-wider shadow-lg"
                     >
                         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
                         {backText}
@@ -89,16 +93,24 @@ const PersonDetailPage = () => {
 
                 {/* Profile Card Content centered inside max-w-4xl */}
                 <div className="max-w-4xl mx-auto">
-                    {/* Profile Header Card */}
-                    <div className="flex flex-col md:flex-row items-center gap-8 p-8 md:p-10 rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-black/30 backdrop-blur-md mb-12 shadow-2xl">
-                        {/* Square Profile Avatar */}
-                        <div className="w-36 h-36 md:w-44 md:h-44 rounded-2xl bg-neutral-800 border-2 border-white/20 overflow-hidden relative shrink-0 shadow-lg">
+                    
+                    {/* 2. Profile Header Card - Animated with spring hover */}
+                    <motion.div 
+                        whileHover={cardHover}
+                        className="flex flex-col md:flex-row items-center gap-8 p-8 md:p-10 rounded-2xl border border-white/15 bg-gradient-to-b from-zinc-900 to-neutral-950 mb-10 shadow-2xl relative z-10 transition-colors"
+                    >
+                        {/* Square Profile Avatar with scale hover */}
+                        <motion.div 
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                            className="w-36 h-36 md:w-44 md:h-44 rounded-2xl bg-neutral-800 border-2 border-white/20 overflow-hidden relative shrink-0 shadow-lg"
+                        >
                             {person.image ? (
                                 <img src={person.image} alt={person.name} className="w-full h-full object-cover" />
                             ) : (
                                 <div className="absolute inset-0 bg-gradient-to-tr from-gray-700 to-gray-600"></div>
                             )}
-                        </div>
+                        </motion.div>
 
                         {/* Basic Info */}
                         <div className="text-center md:text-left flex-1">
@@ -109,49 +121,63 @@ const PersonDetailPage = () => {
                                 {person.role}
                             </p>
 
-                            {/* Social Links */}
+                            {/* Social Links with individual bounce animations */}
                             <div className="flex justify-center md:justify-start gap-4">
                                 {person.socials?.map((social, index) => (
-                                    <a
+                                    <motion.a
                                         key={index}
                                         href={social.url}
-                                        className="p-3 bg-white/5 hover:bg-white/15 rounded-full text-gray-300 hover:text-white transition-all duration-300 border border-white/10"
+                                        whileHover={{ scale: 1.15, y: -3 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                        className="p-3 bg-neutral-800/80 hover:bg-neutral-700 rounded-full text-gray-300 hover:text-white transition-colors duration-300 border border-white/10 shadow-md"
                                     >
                                         <SocialIcon platform={social.platform} />
-                                    </a>
+                                    </motion.a>
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
-                    {/* Note Section */}
+                    {/* Note Section - Animated with spring hover */}
                     {person.note && (
-                        <div className="p-8 rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-black/20 backdrop-blur-sm mb-10 relative overflow-hidden">
+                        <motion.div 
+                            whileHover={cardHover}
+                            className="p-8 rounded-2xl border border-white/15 bg-gradient-to-b from-zinc-900 to-neutral-950 mb-10 relative overflow-hidden shadow-xl z-10 transition-colors"
+                        >
                             <Quote className="absolute top-4 right-4 text-white/5 w-20 h-20 pointer-events-none" />
                             <h2 className="text-xs font-mono uppercase tracking-widest text-blue-400 mb-3">
                                 Note from {person.noteFrom || 'Leadership'}
                             </h2>
-                            <p className="text-gray-300 text-lg italic leading-relaxed">
+                            <p className="text-gray-300 text-lg italic leading-relaxed relative z-10">
                                 "{person.note}"
                             </p>
-                        </div>
+                        </motion.div>
                     )}
 
-                    {/* Contributions List */}
+                    {/* Contributions List - Animated with spring hover */}
                     {person.contributions && person.contributions.length > 0 && (
-                        <div className="p-8 rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-black/20 backdrop-blur-sm">
+                        <motion.div 
+                            whileHover={cardHover}
+                            className="p-8 rounded-2xl border border-white/15 bg-gradient-to-b from-zinc-900 to-neutral-950 shadow-xl relative z-10 transition-colors"
+                        >
                             <h2 className="text-xl font-bold tracking-tight mb-6 text-white uppercase font-mono text-sm tracking-widest">
                                 Key Contributions
                             </h2>
                             <ul className="space-y-4">
                                 {person.contributions.map((item, index) => (
-                                    <li key={index} className="flex items-start gap-3 text-gray-300 text-base leading-relaxed">
+                                    <motion.li 
+                                        key={index} 
+                                        whileHover={{ x: 6 }}
+                                        transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                                        className="flex items-start gap-3 text-gray-300 text-base leading-relaxed p-2 -mx-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                                    >
                                         <CheckCircle2 size={20} className="text-blue-400 shrink-0 mt-0.5" />
                                         <span>{item}</span>
-                                    </li>
+                                    </motion.li>
                                 ))}
                             </ul>
-                        </div>
+                        </motion.div>
                     )}
                 </div>
             </div>

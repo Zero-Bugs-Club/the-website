@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { recruitmentConfig } from '../config/recruitment.config';
 import { Send, User, Hash, Mail, Calendar, ChevronDown, Check, Layers, ArrowLeft } from 'lucide-react';
-import LightRays from '../components/ui/LightRays';
+import ColorBends from '../components/ui/ColorBends';
 
 const CustomSelect = ({ name, value, options, placeholder, onChange, icon: Icon, error }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -227,13 +227,11 @@ const RecruitmentPage = () => {
             exit={{ opacity: 0 }}
             className="min-h-screen bg-black pt-24 pb-40 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
         >
+            {/* Color Bends Background */}
             <div className="absolute inset-0 z-0 pointer-events-none">
-                <LightRays
-                    raysOrigin="top-center"
-                    raysColor="#444444"
-                    raysSpeed={0.5}
-                    lightSpread={0.6}
-                    rayLength={0.8}
+                <ColorBends
+                    colors={["#000000", "#ffffff", "#000000"]}
+                    speed={0.015}
                 />
             </div>
 
@@ -241,7 +239,7 @@ const RecruitmentPage = () => {
                 <button
                     type="button"
                     onClick={() => navigate('/')}
-                    className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 hover:bg-white hover:text-black text-gray-300 font-medium text-sm transition-all duration-300 group cursor-pointer shadow-md"
+                    className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-neutral-900/80 hover:bg-white hover:text-black text-gray-300 font-medium text-sm transition-all duration-300 group cursor-pointer shadow-md"
                 >
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                     <span>Back to Home</span>
@@ -254,7 +252,8 @@ const RecruitmentPage = () => {
                     <p className="text-gray-400">Join the community. Build the future.</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-8 bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10" noValidate>
+                {/* Changed bg-zinc-950/90 to bg-zinc-950/75 for increased transparency */}
+                <form onSubmit={handleSubmit} className="space-y-8 bg-zinc-950/75 backdrop-blur-xl p-8 rounded-2xl border border-white/15 shadow-2xl" noValidate>
 
                     {/* Basic Details */}
                     <div className="space-y-6">
@@ -271,7 +270,7 @@ const RecruitmentPage = () => {
                                     name="name"
                                     value={formData.name}
                                     onChange={handleInputChange}
-                                    className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
+                                    className="w-full bg-black/60 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
                                     placeholder="Pattasu Balu"
                                 />
                                 {errors.name && (
@@ -294,7 +293,7 @@ const RecruitmentPage = () => {
                                     name="regNo"
                                     value={formData.regNo}
                                     onChange={handleInputChange}
-                                    className={`w-full bg-black/50 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors ${errors.regNo ? 'border-red-500' : 'border-white/20'}`}
+                                    className={`w-full bg-black/60 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors ${errors.regNo ? 'border-red-500' : 'border-white/20'}`}
                                     placeholder="24BCE6767"
                                 />
                                 {errors.regNo && (
@@ -317,7 +316,7 @@ const RecruitmentPage = () => {
                                     name="vitEmail"
                                     value={formData.vitEmail}
                                     onChange={handleInputChange}
-                                    className={`w-full bg-black/50 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors ${errors.vitEmail ? 'border-red-500' : 'border-white/20'}`}
+                                    className={`w-full bg-black/60 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors ${errors.vitEmail ? 'border-red-500' : 'border-white/20'}`}
                                     placeholder="pattasu.balu2024@vitstudent.ac.in"
                                 />
                                 {errors.vitEmail && (
@@ -405,7 +404,7 @@ const RecruitmentPage = () => {
                                                 value={formData.answers[q.id] || ''}
                                                 onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                                                 placeholder={q.placeholder}
-                                                className={`w-full bg-black/50 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors h-36 ${errors[q.id] ? 'border-red-500' : 'border-white/20'}`}
+                                                className={`w-full bg-black/60 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors h-36 ${errors[q.id] ? 'border-red-500' : 'border-white/20'}`}
                                             />
                                             {q.wordLimit && (
                                                 <div className="flex justify-end text-xs text-gray-400 font-mono">
@@ -420,7 +419,7 @@ const RecruitmentPage = () => {
                                             value={formData.answers[q.id] || ''}
                                             onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                                             placeholder={q.placeholder}
-                                            className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
+                                            className="w-full bg-black/60 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors"
                                         />
                                     )}
                                     {errors[q.id] && (
@@ -447,7 +446,7 @@ const RecruitmentPage = () => {
                                                 value={formData.answers[q.id] || ''}
                                                 onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                                                 placeholder={q.placeholder}
-                                                className={`w-full bg-black/50 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors h-36 ${errors[q.id] ? 'border-red-500' : 'border-white/20'}`}
+                                                className={`w-full bg-black/60 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors h-36 ${errors[q.id] ? 'border-red-500' : 'border-white/20'}`}
                                             />
                                             {q.wordLimit && (
                                                 <div className="flex justify-end text-xs text-gray-400 font-mono">
@@ -462,7 +461,7 @@ const RecruitmentPage = () => {
                                             value={formData.answers[q.id] || ''}
                                             onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                                             placeholder={q.placeholder}
-                                            className={`w-full bg-black/50 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors ${errors[q.id] ? 'border-red-500' : 'border-white/20'}`}
+                                            className={`w-full bg-black/60 border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white transition-colors ${errors[q.id] ? 'border-red-500' : 'border-white/20'}`}
                                         />
                                     )}
                                     {errors[q.id] && (
