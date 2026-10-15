@@ -13,6 +13,8 @@ import AboutPage from './pages/AboutPage';
 import AboutSlugResolver from './pages/AboutSlugResolver';
 import PersonDetailPage from './pages/PersonDetailPage';
 import DomainsPage from './pages/DomainsPage';
+import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
 import ToolsPage from './pages/ToolsPage';
 import CompilerPage from './pages/CompilerPage';
 import FFCSPlannerPage from './pages/FFCSPlannerPage';
@@ -72,6 +74,8 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/about/:slug" element={<AboutSlugResolver />} />
               <Route path="/about/:dept/:name" element={<PersonDetailPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/projects/:slug" element={<ProjectDetailPage />} />
               <Route path="/domains" element={<DomainsPage />} />
               <Route path="/tools" element={<ToolsPage />} />
               <Route path="/tools/compiler" element={<CompilerPage />} />
