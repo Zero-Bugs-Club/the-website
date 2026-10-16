@@ -17,6 +17,7 @@ import ToolsPage from './pages/ToolsPage';
 import CompilerPage from './pages/CompilerPage';
 import FFCSPlannerPage from './pages/FFCSPlannerPage';
 import QRCodePage from './pages/QRCodePage';
+import EventsPage from './pages/EventsPage';
 // import GalleryPage from './pages/GalleryPage'; // Unlinked but file retained
 
 // Scroll to top on route change with smart About page scroll restoration
@@ -77,6 +78,7 @@ function App() {
               <Route path="/tools/compiler" element={<CompilerPage />} />
               <Route path="/tools/ffcs-planner" element={<FFCSPlannerPage />} />
               <Route path="/tools/qr-code-generator" element={<QRCodePage />} />
+              <Route path="/events" element={<EventsPage />} />
               {/* Gallery route removed completely so it's inaccessible via URL or slug */}
             </Routes>
           </AnimatePresence>
